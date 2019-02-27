@@ -1,0 +1,12 @@
+Install GLEW
+sudo apt-get install libglew-dev
+Install glut
+sudo apt-get install freeglut3-dev
+Install sdl2
+sudo apt-get install libsdl2-dev
+
+Code:block linker
+/usr/lib/x86_64-linux-gnu/libglut.so
+/usr/lib/x86_64-linux-gnu/libGL.so
+/usr/lib/x86_64-linux-gnu/libSDL2.so
+/usr/lib/x86_64-linux-gnu/libGLEW.so

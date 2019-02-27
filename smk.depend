@@ -1,14 +1,8 @@
 # depslib dependency file v1.0
-1550491194 source:/home/jevgenij3141/Documents/smk-2020/main.cpp
-	<stdio.h>
-	<stdlib.h>
-	<X11/X.h>
-	<X11/Xlib.h>
-	"GL/glew.h"
-	"GLFW/glfw3.h"
-	<GL/gl.h>
-	<GL/glx.h>
-	<GL/glu.h>
+1551268657 source:/home/jevgenij3141/Documents/smk-2020/main.cpp
+	<GL/glew.h>
+	<GL/glut.h>
+	<SDL2/SDL.h>
 
 1501500339 /home/jevgenij3141/Documents/smk-2020/GL/glew.h
 	<stddef.h>
