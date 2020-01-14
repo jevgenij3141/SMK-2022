@@ -54,6 +54,22 @@ int main( int argc, char **argv )
     int y = 0;
     float z = 0;
 
+    /* set viewing projection */
+    glMatrixMode(GL_PROJECTION);
+    glFrustum(-0.5F, 0.5F, -0.5F, 0.5F, 1.0F, 3.0F);
+
+    /* position viewer */
+    glMatrixMode(GL_MODELVIEW);
+    glTranslatef(0.0F, 0.0F, -2.0F);
+
+    /* position object */
+    glRotatef(30.0F, 1.0F, 0.0F, 0.0F);
+    glRotatef(30.0F, 0.0F, 1.0F, 0.0F);
+
+    glEnable(GL_DEPTH_TEST);
+    glEnable(GL_LIGHTING);
+    glEnable(GL_LIGHT0);
+
     while( running )
     {
         SDL_Event ev;
@@ -76,60 +92,45 @@ int main( int argc, char **argv )
         SDL_GetWindowSize( window, &w, &h );
         glViewport( 0, 0, w, h );
 
-        glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
-        glLoadIdentity();
+          
+        //glLoadIdentity();
 
         // Rotate when user changes rotate_x and rotate_y
-        y += 1;
-        z += 0.2;
+        y = 0.8;
+        z = 0.2;
         glRotatef( y, 1.0, 0.0, 0.0 );
         glRotatef( z, 0.0, 1.0, 0.0 );
 
+        /* clear color and depth buffers */
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        // White side - BACK
-        glBegin(GL_POLYGON);
-        glColor3f(   1.0,  1.0, 1.0 );
-        glVertex3f(  0.5, -0.5, 0.5 );
-        glVertex3f(  0.5,  0.5, 0.5 );
-        glVertex3f( -0.5,  0.5, 0.5 );
-        glVertex3f( -0.5, -0.5, 0.5 );
+        /* draw six faces of a cube */
+        glBegin(GL_QUADS);
+        glNormal3f( 0.0F, 0.0F, 1.0F);
+        glVertex3f( 0.5F, 0.5F, 0.5F); glVertex3f(-0.5F, 0.5F, 0.5F);
+        glVertex3f(-0.5F,-0.5F, 0.5F); glVertex3f( 0.5F,-0.5F, 0.5F);
+
+        glNormal3f( 0.0F, 0.0F,-1.0F);
+        glVertex3f(-0.5F,-0.5F,-0.5F); glVertex3f(-0.5F, 0.5F,-0.5F);
+        glVertex3f( 0.5F, 0.5F,-0.5F); glVertex3f( 0.5F,-0.5F,-0.5F);
+
+        glNormal3f( 0.0F, 1.0F, 0.0F);
+        glVertex3f( 0.5F, 0.5F, 0.5F); glVertex3f( 0.5F, 0.5F,-0.5F);
+        glVertex3f(-0.5F, 0.5F,-0.5F); glVertex3f(-0.5F, 0.5F, 0.5F);
+
+        glNormal3f( 0.0F,-1.0F, 0.0F);
+        glVertex3f(-0.5F,-0.5F,-0.5F); glVertex3f( 0.5F,-0.5F,-0.5F);
+        glVertex3f( 0.5F,-0.5F, 0.5F); glVertex3f(-0.5F,-0.5F, 0.5F);
+
+        glNormal3f( 1.0F, 0.0F, 0.0F);
+        glVertex3f( 0.5F, 0.5F, 0.5F); glVertex3f( 0.5F,-0.5F, 0.5F);
+        glVertex3f( 0.5F,-0.5F,-0.5F); glVertex3f( 0.5F, 0.5F,-0.5F);
+
+        glNormal3f(-1.0F, 0.0F, 0.0F);
+        glVertex3f(-0.5F,-0.5F,-0.5F); glVertex3f(-0.5F,-0.5F, 0.5F);
+        glVertex3f(-0.5F, 0.5F, 0.5F); glVertex3f(-0.5F, 0.5F,-0.5F);
         glEnd();
 
-        // Purple side - RIGHT
-        glBegin(GL_POLYGON);
-        glColor3f(  1.0,  0.0,  1.0 );
-        glVertex3f( 0.5, -0.5, -0.5 );
-        glVertex3f( 0.5,  0.5, -0.5 );
-        glVertex3f( 0.5,  0.5,  0.5 );
-        glVertex3f( 0.5, -0.5,  0.5 );
-        glEnd();
-
-        // Green side - LEFT
-        glBegin(GL_POLYGON);
-        glColor3f(   0.0,  1.0,  0.0 );
-        glVertex3f( -0.5, -0.5,  0.5 );
-        glVertex3f( -0.5,  0.5,  0.5 );
-        glVertex3f( -0.5,  0.5, -0.5 );
-        glVertex3f( -0.5, -0.5, -0.5 );
-        glEnd();
-
-        // Blue side - TOP
-        glBegin(GL_POLYGON);
-        glColor3f(   0.0,  0.0,  1.0 );
-        glVertex3f(  0.5,  0.5,  0.5 );
-        glVertex3f(  0.5,  0.5, -0.5 );
-        glVertex3f( -0.5,  0.5, -0.5 );
-        glVertex3f( -0.5,  0.5,  0.5 );
-        glEnd();
-
-        // Red side - BOTTOM
-        glBegin(GL_POLYGON);
-        glColor3f(   1.0,  0.0,  0.0 );
-        glVertex3f(  0.5, -0.5, -0.5 );
-        glVertex3f(  0.5, -0.5,  0.5 );
-        glVertex3f( -0.5, -0.5,  0.5 );
-        glVertex3f( -0.5, -0.5, -0.5 );
-        glEnd();
 
         SDL_GL_SwapWindow( window );
     }
