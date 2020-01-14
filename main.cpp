@@ -62,7 +62,7 @@ int main( int argc, char **argv )
             if( ev.type == SDL_QUIT ){
                 running = false;
             }
-            
+
             if( ev.type == SDL_KEYUP && ev.key.keysym.sym == SDLK_ESCAPE ){
                 running = false;
             }
@@ -84,7 +84,6 @@ int main( int argc, char **argv )
         z += 0.2;
         glRotatef( y, 1.0, 0.0, 0.0 );
         glRotatef( z, 0.0, 1.0, 0.0 );
-
 
 
         // White side - BACK
@@ -131,7 +130,6 @@ int main( int argc, char **argv )
         glVertex3f( -0.5, -0.5,  0.5 );
         glVertex3f( -0.5, -0.5, -0.5 );
         glEnd();
-
 
         SDL_GL_SwapWindow( window );
     }
