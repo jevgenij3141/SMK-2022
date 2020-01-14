@@ -1,0 +1,5 @@
+if test -f "main"; then
+    rm main
+fi
+gcc main.cpp -o main -lglut -lGLEW -lSDL2 -lGL
+./main

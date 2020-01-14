@@ -36,58 +36,102 @@ int main( int argc, char **argv )
     if( SDL_Init( SDL_INIT_EVERYTHING ) < 0 )
         return -1;
 
-    SDL_Window* window = SDL_CreateWindow
-        (
-        "Test",
-        SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
-        640, 480,
-        SDL_WINDOW_RESIZABLE | SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL
-        );
-    if( NULL == window )
+    SDL_Window* window = SDL_CreateWindow("Test", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 640, 480, SDL_WINDOW_RESIZABLE | SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL);
+    
+    if( NULL == window ){
         return -1;
+    }
 
     SDL_GLContext ctx = SDL_GL_CreateContext( window );
-    if( GLEW_OK != glewInit() )
+    if( GLEW_OK != glewInit() ){
         return -1;
+    }
 
     SDL_Rect curBounds;
 
     bool running = true;
+
+    int y = 0;
+    float z = 0;
+
     while( running )
     {
         SDL_Event ev;
         while( SDL_WaitEventTimeout( &ev, 16 ) )
         {
-            if( ev.type == SDL_QUIT )
+            if( ev.type == SDL_QUIT ){
                 running = false;
-            if( ev.type == SDL_KEYUP &&
-                ev.key.keysym.sym == SDLK_ESCAPE )
+            }
+            
+            if( ev.type == SDL_KEYUP && ev.key.keysym.sym == SDLK_ESCAPE ){
                 running = false;
+            }
 
-            if( ev.type == SDL_KEYUP &&
-                ev.key.keysym.sym == SDLK_f )
+            if( ev.type == SDL_KEYUP && ev.key.keysym.sym == SDLK_f ){
                 curBounds = ToggleFakeFullscreen( window, curBounds );
+            }
         }
 
         int w, h;
         SDL_GetWindowSize( window, &w, &h );
         glViewport( 0, 0, w, h );
 
-        glClearColor( 0, 0, 0, 1 );
-        glClear( GL_COLOR_BUFFER_BIT );
-
-        glMatrixMode( GL_PROJECTION );
+        glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
         glLoadIdentity();
 
-        glMatrixMode( GL_MODELVIEW );
-        glLoadIdentity();
+        // Rotate when user changes rotate_x and rotate_y
+        y += 1;
+        z += 0.2;
+        glRotatef( y, 1.0, 0.0, 0.0 );
+        glRotatef( z, 0.0, 1.0, 0.0 );
 
-        glColor3ub( 255, 0, 0 );
-        glBegin( GL_TRIANGLES );
-        glVertex2i( -1, -1 );
-        glVertex2i(  1, -1 );
-        glVertex2i(  0,  1 );
+
+
+        // White side - BACK
+        glBegin(GL_POLYGON);
+        glColor3f(   1.0,  1.0, 1.0 );
+        glVertex3f(  0.5, -0.5, 0.5 );
+        glVertex3f(  0.5,  0.5, 0.5 );
+        glVertex3f( -0.5,  0.5, 0.5 );
+        glVertex3f( -0.5, -0.5, 0.5 );
         glEnd();
+
+        // Purple side - RIGHT
+        glBegin(GL_POLYGON);
+        glColor3f(  1.0,  0.0,  1.0 );
+        glVertex3f( 0.5, -0.5, -0.5 );
+        glVertex3f( 0.5,  0.5, -0.5 );
+        glVertex3f( 0.5,  0.5,  0.5 );
+        glVertex3f( 0.5, -0.5,  0.5 );
+        glEnd();
+
+        // Green side - LEFT
+        glBegin(GL_POLYGON);
+        glColor3f(   0.0,  1.0,  0.0 );
+        glVertex3f( -0.5, -0.5,  0.5 );
+        glVertex3f( -0.5,  0.5,  0.5 );
+        glVertex3f( -0.5,  0.5, -0.5 );
+        glVertex3f( -0.5, -0.5, -0.5 );
+        glEnd();
+
+        // Blue side - TOP
+        glBegin(GL_POLYGON);
+        glColor3f(   0.0,  0.0,  1.0 );
+        glVertex3f(  0.5,  0.5,  0.5 );
+        glVertex3f(  0.5,  0.5, -0.5 );
+        glVertex3f( -0.5,  0.5, -0.5 );
+        glVertex3f( -0.5,  0.5,  0.5 );
+        glEnd();
+
+        // Red side - BOTTOM
+        glBegin(GL_POLYGON);
+        glColor3f(   1.0,  0.0,  0.0 );
+        glVertex3f(  0.5, -0.5, -0.5 );
+        glVertex3f(  0.5, -0.5,  0.5 );
+        glVertex3f( -0.5, -0.5,  0.5 );
+        glVertex3f( -0.5, -0.5, -0.5 );
+        glEnd();
+
 
         SDL_GL_SwapWindow( window );
     }
@@ -98,3 +142,5 @@ int main( int argc, char **argv )
 
     return 0;
 }
+
+
