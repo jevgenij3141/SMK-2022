@@ -1,9 +1,7 @@
 #include <GL/glew.h>
 #include <GL/glut.h>
 #include <SDL2/SDL.h>
-
-#define STB_IMAGE_IMPLEMENTATION
-#include "stb_image.h"
+#include <SDL2/SDL_image.h>
 
 ///usr/lib/x86_64-linux-gnu/libGLU.so - not included
 
@@ -74,32 +72,16 @@ int main( int argc, char **argv )
     glEnable(GL_LIGHT0);
 
     // Images
-    unsigned int texture;
-    glGenTextures(1, &texture);
+    GLuint texture;
+    SDL_Surface *surface;
+    surface = IMG_Load("./box.png");
+    printf("IMG_Load: %s\n", IMG_GetError());
+    glGenTextures(1,&texture);
     glBindTexture(GL_TEXTURE_2D, texture);
-    // set the texture wrapping/filtering options (on the currently bound texture object)
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);	
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    // load and generate the texture
-    int width, height, nrChannels;
-    unsigned char *data = stbi_load("box.jpg", &width, &height, &nrChannels, 0);
-    if (data)
-    {
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
-        glGenerateMipmap(GL_TEXTURE_2D);
-    }
-    stbi_image_free(data);
-
-    //Object
-    float vertices[] = {
-        // positions          // colors           // texture coords
-         0.5f,  0.5f, 0.0f,   1.0f, 0.0f, 0.0f,   1.0f, 1.0f, // top right
-         0.5f, -0.5f, 0.0f,   0.0f, 1.0f, 0.0f,   1.0f, 0.0f, // bottom right
-        -0.5f, -0.5f, 0.0f,   0.0f, 0.0f, 1.0f,   0.0f, 0.0f, // bottom left
-        -0.5f,  0.5f, 0.0f,   1.0f, 1.0f, 0.0f,   0.0f, 1.0f  // top left 
-    };
+    glTexImage2D(GL_TEXTURE_2D,0,GL_RGBA,surface->w,surface->h,0,GL_RGBA,GL_UNSIGNED_BYTE,surface->pixels);
+    glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
+    SDL_FreeSurface(surface);
 
     while( running )
     {
@@ -129,39 +111,22 @@ int main( int argc, char **argv )
         // Rotate when user changes rotate_x and rotate_y
         y = 0.8;
         z = 0.2;
-        glRotatef( y, 1.0, 0.0, 0.0 );
+        glRotatef( y, 1.0, 0.0, 1 );
         glRotatef( z, 0.0, 1.0, 0.0 );
 
-        /* clear color and depth buffers */
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        glEnable(GL_TEXTURE_2D);
+        glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
+        glBindTexture(GL_TEXTURE_2D, texture);
 
-        glBindTexture(GL_TEXTURE_2D, texture);  
 
-        /* draw six faces of a cube */
         glBegin(GL_QUADS);
-        glNormal3f( 0.0F, 0.0F, 1.0F);
-        glVertex3f( 0.5F, 0.5F, 0.5F); glVertex3f(-0.5F, 0.5F, 0.5F);
-        glVertex3f(-0.5F,-0.5F, 0.5F); glVertex3f( 0.5F,-0.5F, 0.5F);
 
-        glNormal3f( 0.0F, 0.0F,-1.0F);
-        glVertex3f(-0.5F,-0.5F,-0.5F); glVertex3f(-0.5F, 0.5F,-0.5F);
-        glVertex3f( 0.5F, 0.5F,-0.5F); glVertex3f( 0.5F,-0.5F,-0.5F);
+        glTexCoord2f(0.0, 0.0); glVertex3f(-1.0, -0.5, 0.0);
+        glTexCoord2f(0.0, 1.0); glVertex3f(-1.0, 0.5, 0.0);
+        glTexCoord2f(1.0, 1.0); glVertex3f(0.0, 0.5, 0.0);
+        glTexCoord2f(1.0, 0.0); glVertex3f(0.0, -0.5, 0.0);
 
-        glNormal3f( 0.0F, 1.0F, 0.0F);
-        glVertex3f( 0.5F, 0.5F, 0.5F); glVertex3f( 0.5F, 0.5F,-0.5F);
-        glVertex3f(-0.5F, 0.5F,-0.5F); glVertex3f(-0.5F, 0.5F, 0.5F);
-
-        glNormal3f( 0.0F,-1.0F, 0.0F);
-        glVertex3f(-0.5F,-0.5F,-0.5F); glVertex3f( 0.5F,-0.5F,-0.5F);
-        glVertex3f( 0.5F,-0.5F, 0.5F); glVertex3f(-0.5F,-0.5F, 0.5F);
-
-        glNormal3f( 1.0F, 0.0F, 0.0F);
-        glVertex3f( 0.5F, 0.5F, 0.5F); glVertex3f( 0.5F,-0.5F, 0.5F);
-        glVertex3f( 0.5F,-0.5F,-0.5F); glVertex3f( 0.5F, 0.5F,-0.5F);
-
-        glNormal3f(-1.0F, 0.0F, 0.0F);
-        glVertex3f(-0.5F,-0.5F,-0.5F); glVertex3f(-0.5F,-0.5F, 0.5F);
-        glVertex3f(-0.5F, 0.5F, 0.5F); glVertex3f(-0.5F, 0.5F,-0.5F);
         glEnd();
 
 
