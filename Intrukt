@@ -4,6 +4,8 @@ Install glut
 sudo apt-get install freeglut3-dev
 Install sdl2
 sudo apt-get install libsdl2-dev
+Install sdl2/sdl_image
+sudo apt install libsdl2-image-dev
 
 Code:block linker
 /usr/lib/x86_64-linux-gnu/libglut.so

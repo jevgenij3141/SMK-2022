@@ -1,5 +1,5 @@
 if test -f "main"; then
     rm main
 fi
-gcc main.cpp -o main -lglut -lGLEW -lSDL2 -lGL
+g++ main.cpp -o main -lglut -lGLEW -lSDL2 -lGL -lSDL2_image
 ./main
