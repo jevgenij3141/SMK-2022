@@ -1,5 +1,6 @@
-if test -f "main"; then
-    rm main
+if test -f "./main"; then
+    rm ./main
 fi
-g++ main.cpp -o main -lglut -lGLEW -lSDL2 -lGL -lSDL2_image
+
+g++ main.cpp -o main -lglut -lGLEW  -lGL -lSDL2_image `pkg-config --cflags --libs sdl2`
 ./main
