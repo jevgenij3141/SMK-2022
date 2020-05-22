@@ -4,7 +4,7 @@
         {
             "label": "g++",
             "type": "shell",
-            "command": "./../build"
+            "command": "g++ main.cpp -o launch -lglut -lGLEW  -lGL -lSDL2_image `pkg-config --cflags --libs sdl2`"
         },
         {
             "type": "shell",

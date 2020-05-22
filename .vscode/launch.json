@@ -9,7 +9,7 @@
             "name": "g++",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${fileDirname}/../launch",
+            "program": "${fileDirname}/launch",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",

@@ -1,6 +1,5 @@
-if test -f "./main"; then
-    rm ./main
+if test -f "launch"; then
+    rm launch
 fi
 
-g++ main.cpp -o main -lglut -lGLEW  -lGL -lSDL2_image `pkg-config --cflags --libs sdl2`
-./main
+g++ main.cpp -o launch -lglut -lGLEW  -lGL -lSDL2_image `pkg-config --cflags --libs sdl2`
