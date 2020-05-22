@@ -2,23 +2,17 @@
     "version": "2.0.0",
     "tasks": [
         {
+            "type": "shell",
             "label": "g++",
-            "type": "shell",
-            "command": "g++ main.cpp -o launch -lglut -lGLEW  -lGL -lSDL2_image `pkg-config --cflags --libs sdl2`"
-        },
-        {
-            "type": "shell",
-            "label": "g++ build active file",
-            "command": "/usr/bin/g++",
-            "args": [
-                "-g",
-                "${file}",
-                "-o",
-                "${fileDirname}/${fileBasenameNoExtension}"
-            ],
+            "command": "g++ ${fileDirname}/main.cpp -o ${fileDirname}/main -lglut -lGLEW  -lGL -lSDL2_image `pkg-config --cflags --libs sdl2`",
+            "args": [],
             "options": {
                 "cwd": "/usr/bin"
-            }
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": "build"
         }
     ]
 }

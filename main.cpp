@@ -3,8 +3,6 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 
-///usr/lib/x86_64-linux-gnu/libGLU.so - not included
-
 // use border state as proxy for fullscreenedness
 SDL_Rect ToggleFakeFullscreen( SDL_Window* window, const SDL_Rect& oldBounds )
 {
@@ -118,7 +116,6 @@ int main( int argc, char **argv )
         glEnable(GL_TEXTURE_2D);
         glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
         glBindTexture(GL_TEXTURE_2D, texture);
-
 
         glBegin(GL_QUADS);
 
