@@ -3,6 +3,11 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 
+GLuint texture;
+SDL_Surface *surface;
+
+void buildScene();
+
 // use border state as proxy for fullscreenedness
 SDL_Rect ToggleFakeFullscreen( SDL_Window* window, const SDL_Rect& oldBounds )
 {
@@ -50,9 +55,6 @@ int main( int argc, char **argv )
 
     bool running = true;
 
-    int y = 0;
-    float z = 0;
-
     /* set viewing projection */
     glMatrixMode(GL_PROJECTION);
     glFrustum(-0.5F, 0.5F, -0.5F, 0.5F, 1.0F, 3.0F);
@@ -70,8 +72,6 @@ int main( int argc, char **argv )
     glEnable(GL_LIGHT0);
 
     // Images
-    GLuint texture;
-    SDL_Surface *surface;
     surface = IMG_Load("./box.png");
     printf("IMG_Load: %s\n", IMG_GetError());
     glGenTextures(1,&texture);
@@ -102,9 +102,24 @@ int main( int argc, char **argv )
         int w, h;
         SDL_GetWindowSize( window, &w, &h );
         glViewport( 0, 0, w, h );
-
           
+        buildScene();
+
+        SDL_GL_SwapWindow( window );
+    }
+
+    SDL_GL_DeleteContext( ctx );
+    SDL_DestroyWindow( window );
+    SDL_Quit();
+
+    return 0;
+}
+
+void buildScene(){
         //glLoadIdentity();
+
+        int y = 0;
+        float z = 0;
 
         // Rotate when user changes rotate_x and rotate_y
         y = 0.8;
@@ -125,16 +140,6 @@ int main( int argc, char **argv )
         glTexCoord2f(1.0, 0.0); glVertex3f(0.0, -0.5, 0.0);
 
         glEnd();
-
-
-        SDL_GL_SwapWindow( window );
-    }
-
-    SDL_GL_DeleteContext( ctx );
-    SDL_DestroyWindow( window );
-    SDL_Quit();
-
-    return 0;
 }
 
 

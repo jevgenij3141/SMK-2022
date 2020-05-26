@@ -1,0 +1,3 @@
+if test -f "launch"; then rm launch
+    rm launch
+fi
