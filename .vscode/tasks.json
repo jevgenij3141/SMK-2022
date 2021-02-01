@@ -3,16 +3,55 @@
     "tasks": [
         {
             "type": "shell",
-            "label": "g++",
-            "command": "g++ ${fileDirname}/main.cpp -o ${fileDirname}/main -lglut -lGLEW  -lGL -lSDL2_image `pkg-config --cflags --libs sdl2`",
-            "args": [],
+            "label": "g++11 build active file",
+            "command": "/usr/bin/g++",
+            "args": [
+                "${file}",
+                "-o",
+                "${fileDirname}/${fileBasenameNoExtension}",
+                "-lglut",
+                "-lGLEW",
+                "-lGL",
+                "-lSDL2_image",
+                "`pkg-config",
+                "--cflags",
+                "--libs",
+                "sdl2`"
+            ],
             "options": {
                 "cwd": "/usr/bin"
+            }
+        },
+        {
+            "type": "shell",
+            "label": "C/C++: g++ build active file",
+            "command": "/usr/bin/g++",
+            "args": [
+                "${file}",
+                "${fileDirname}/src/Collada/Collada.cpp",
+                "${fileDirname}/src/Debug/console.cpp",
+                "-o",
+                "${fileDirname}/${fileBasenameNoExtension}",
+                "-lglut",
+                "-lGLEW",
+                "-lGL",
+                "-lSDL2_image",
+                "`pkg-config",
+                "--cflags",
+                "--libs",
+                "sdl2`",
+                "-lxerces-c"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
             },
             "problemMatcher": [
                 "$gcc"
             ],
-            "group": "build"
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
         }
     ]
 }

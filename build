@@ -1,5 +1,9 @@
-if test -f "launch"; then rm launch
-    rm launch
+if [ -f "$CPP" ]; then
+    rm ./main
 fi
 
-g++ main.cpp -o launch -lglut -lGLEW  -lGL -lSDL2_image `pkg-config --cflags --libs sdl2`
+g++ ./main.cpp ./src/Collada/Collada.cpp ./src/Debug/console.cpp -o ./main -lglut -lGLEW -lGL -lSDL2_image `pkg-config --cflags --libs sdl2` -lxerces-c
+
+if [ "$1" = "-r" ]; then
+    ./main
+fi
