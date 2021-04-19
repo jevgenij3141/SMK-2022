@@ -100,8 +100,8 @@ DOMElement *Collada::getElementByTagName(const DOMElement *element, string tag)
 shared_ptr<SceneData> Collada::loadScene(const DOMDocument *xmlDoc){
     shared_ptr<SceneData> sceneData;
 
-     DOMElement *node = getElementByTagName(xmlDoc->getDocumentElement(), "scene");
-     
+    DOMElement *node = getElementByTagName(xmlDoc->getDocumentElement(), "scene");
+
     DOMNodeList *children = node->getChildNodes();
     int length = children->getLength();
     for (int i = 0; i < length; i++)
